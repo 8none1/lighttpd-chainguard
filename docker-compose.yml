@@ -1,0 +1,14 @@
+
+services:
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: chainguard-lighttpd:local
+    container_name: lighttpd-python
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./www:/var/www/htdocs:ro
+      - ./lighttpd/lighttpd.conf:/etc/lighttpd/lighttpd.conf:ro
+    restart: unless-stopped
