@@ -1,14 +1,24 @@
-
+# docker-compose.yml
 services:
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: chainguard-lighttpd:local
-    container_name: lighttpd-python
+    image: ghcr.io/8none1/lighttpd-chainguard:${TAG:-main}
     ports:
-      - "8080:8080"
+      - "${PORT:-8080}:8080"              # change PORT env var to override
     volumes:
-      - ./www:/var/www/htdocs:ro
+      - ./www:/var/www/htdocs:ro          # your site (put scripts in ./www/cgi-bin/)
       - ./lighttpd/lighttpd.conf:/etc/lighttpd/lighttpd.conf:ro
+    # runtime hardening
+    read_only: true
+    tmpfs:
+      - /run
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    cap_drop: ["ALL"]
     restart: unless-stopped
+    # Healthcheck: enable if your image includes curl or wget. Otherwise omit.
+    # healthcheck:
+    #   test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8080/ >/dev/null"]
+    #   interval: 15s
+    #   timeout: 3s
+    #   retries: 3
