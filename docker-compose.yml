@@ -17,8 +17,8 @@ services:
     cap_drop: ["ALL"]
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "wget --no-verbose --tries=1 --spider http://127.0.0.1:8080/cgi-bin/switch_inverter_mode.py || exit 1"]
-      interval: 300s
+      test: ["CMD-SHELL", "wget --no-verbose --tries=1 -O /dev/null http://127.0.0.1:8080/cgi-bin/switch_inverter_mode.py || exit 1"]
+      interval: 30s
       timeout: 10s
       retries: 3
       start_period: 15s
