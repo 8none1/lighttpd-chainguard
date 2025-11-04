@@ -2,7 +2,7 @@
 FROM cgr.dev/chainguard/wolfi-base:latest
 
 # Install packages
-RUN apk update && apk add --no-cache lighttpd python3 py3-pip
+RUN apk update && apk add --no-cache lighttpd python3 py3-pip wget
 
 # Copy and install Python dependencies
 COPY requirements.txt /tmp/requirements.txt
