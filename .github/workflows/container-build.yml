@@ -3,6 +3,11 @@ name: Build & Sign container
 on:
   push:
     branches: [ main ]
+  schedule:
+    # Weekly rebuild (Mondays 04:17 UTC) so the wolfi base + lighttpd pick up
+    # security updates without needing a manual push. NB GitHub disables scheduled
+    # workflows after 60 days of repo inactivity; a manual run re-enables them.
+    - cron: '17 4 * * 1'
   workflow_dispatch:
 
 env:
